@@ -11,7 +11,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -104,14 +103,6 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 		panic(err)
 	}
 	defer resp.Body.Close()
-
-	// Read Response Body
-	respBody, _ := ioutil.ReadAll(resp.Body)
-
-	// Display Results
-	fmt.Println("response Status : ", resp.Status)
-	fmt.Println("response Headers : ", resp.Header)
-	fmt.Println("response Body : ", string(respBody))
 
 	return resp, nil
 }
