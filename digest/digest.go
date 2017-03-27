@@ -55,11 +55,10 @@ func NewDigestClient(username string, password string) *Client {
 	}
 }
 
-// Post - post method with digest client
-func (digest *Client) Post(host string, uri string, postBody []byte, header http.Header) (*http.Response, error) {
+// Request - request with digest client
+func (digest *Client) Request(host string, uri string, method string, postBody []byte, header http.Header) (*http.Response, error) {
 	// build url
 	url := host + uri
-	method := "POST"
 
 	// block redirect
 	client :=
