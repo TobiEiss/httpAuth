@@ -86,12 +86,14 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 		// build digestParts
 		// generate, add all headers
 		digest.digestParts = digestParts(resp)
-		digest.digestParts[dURI] = uri
-		digest.digestParts[dMethod] = method
 		digest.digestParts[dUsername] = digest.username
 		digest.digestParts[dPassword] = digest.password
 		digest.digestParts[dOpaque] = digest.DPopaque
 	}
+
+	// dynamic digestParts
+	digest.digestParts[dURI] = uri
+	digest.digestParts[dMethod] = method
 
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(postBody))
 	req.Header = header
