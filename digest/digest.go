@@ -13,6 +13,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -79,7 +80,7 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 		}
 		defer resp.Body.Close()
 		if resp.StatusCode != http.StatusUnauthorized {
-			return nil, errors.New("Test request returned not: " + string(http.StatusUnauthorized) + " instead: " + string(resp.StatusCode))
+			return nil, errors.New("Test request returned not: " + strconv.Itoa(http.StatusUnauthorized) + " instead: " + strconv.Itoa(resp.StatusCode))
 		}
 
 		// build digestParts
@@ -102,7 +103,6 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 	if err != nil {
 		panic(err)
 	}
-	defer resp.Body.Close()
 
 	return resp, nil
 }
