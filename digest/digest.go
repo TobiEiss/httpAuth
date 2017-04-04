@@ -11,7 +11,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -76,7 +75,7 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 		// do first a request to get the headers
 		resp, err := client.Do(req)
 		if err != nil {
-			panic(err)
+			return nil, err
 		}
 		defer resp.Body.Close()
 		if resp.StatusCode != http.StatusUnauthorized {
@@ -101,7 +100,7 @@ func (digest *Client) Request(host string, uri string, method string, postBody [
 
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	return resp, nil
@@ -144,6 +143,5 @@ func getDigestAuthrization(digestParts map[string]string) string {
 	response := getMD5(fmt.Sprintf("%s:%s:%v:%s:%s:%s", ha1, d[dNonce], nonceCount, cnonce, d[dQop], ha2))
 	authorization := fmt.Sprintf(`Digest username="%s", realm="%s", nonce="%s", uri="%s", response="%s", opaque="%s", algorithm=MD5, qop=%s, nc=00000001, cnonce="%s"`,
 		d[dUsername], d[dRealm], d[dNonce], d[dURI], response, d[dOpaque], d[dQop], cnonce)
-	log.Println(authorization)
 	return authorization
 }
